@@ -20,7 +20,7 @@ def scrap_data(apps):
         languages = soup.find('dt',
                               attrs={'class': 'information-list__item__term'},
                               string=re.compile('Languages')).next_sibling.next_sibling.text.strip().split(',')
-        languages = [language.strip() for language in languages]
+        languages = sorted([language.strip() for language in languages])
         minimum_system_version_box = soup.find('dt',
                                                attrs={'class': 'information-list__item__term'},
                                                string=re.compile('Compatibility')).next_sibling.next_sibling.text.strip()
