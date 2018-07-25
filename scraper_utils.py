@@ -3,16 +3,26 @@
 
 import urllib2
 import urlparse
+import ssl
 import re
 import os
 import json
+import sys
 from bs4 import BeautifulSoup
 
 
 def scrap_data(apps):
     scrapped_data = []
     for app_name, app_public_url in apps.items():
-        public_page = urllib2.urlopen(app_public_url, timeout=5)
+        try:
+            public_page = urllib2.urlopen(app_public_url, timeout=5)
+        except ssl.SSLError as e:
+            sys.stderr.write('Connection timed out; please check your internet connection\n')
+            continue
+        except urllib2.URLError as e:
+            sys.stderr.write('Connectivity issue; please check your internet connection; exiting\n')
+            sys.exit(-1)
+
         if public_page.getcode() != 200:
             continue
         soup = BeautifulSoup(public_page, 'html.parser')
