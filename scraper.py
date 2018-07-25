@@ -4,7 +4,7 @@
 import os
 import sys
 import csv
-import scraper_utils
+import scraper
 
 
 def process_input_file(filename):
@@ -22,9 +22,14 @@ def main():
     if len(sys.argv) < 2:
         sys.stderr.write('Missing input file path; exiting\n')
         sys.exit(-1)
-    data = scraper_utils.scrap_data(process_input_file(sys.argv[1]))
-    scraper_utils.generate_apps_json(data)
-    scraper_utils.generate_filtered_apps_json(data)
+    try:
+        data = scraper.scrap_data(process_input_file(sys.argv[1]))
+    except Exception as e:
+        sys.stderr.write('Connectivity issue; please check your internet connection; exiting\n')
+        sys.exit(-1)
+
+    scraper.generate_apps_json(data)
+    scraper.generate_filtered_apps_json(data)
 
 
 if __name__ == '__main__':

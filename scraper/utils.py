@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import urllib2
@@ -8,11 +7,14 @@ import re
 import os
 import json
 import sys
+import errors
+
 from bs4 import BeautifulSoup
 
 
 def scrap_data(apps):
     scrapped_data = []
+
     for app_name, app_public_url in apps.items():
         try:
             public_page = urllib2.urlopen(app_public_url, timeout=5)
@@ -20,8 +22,7 @@ def scrap_data(apps):
             sys.stderr.write('Connection timed out; please check your internet connection\n')
             continue
         except urllib2.URLError as e:
-            sys.stderr.write('Connectivity issue; please check your internet connection; exiting\n')
-            sys.exit(-1)
+            raise errors.ScraperError('Cannot continue')
 
         if public_page.getcode() != 200:
             continue
