@@ -2,6 +2,9 @@
 
 > A really tiny scraper to extract data about mobile apps
 
+This project was developed as a technical test and a proof of concept for a selection process (July 2018).
+**It is not maintained anymore**.
+
 ## Setup & Running
 
 First you need to create and to activate the `virtualenv` and install the requirements:
